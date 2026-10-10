@@ -1,0 +1,31 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  engine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r engine/requirements.txt && cd engine && pytest -q
+  api:
+    runs-on: ubuntu-latest
+    services:
+      redis: { image: "redis:7", ports: ["6379:6379"] }
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_PASSWORD: dev, POSTGRES_DB: cyberledger }
+        ports: ["5432:5432"]
+    env: { DATABASE_URL: "postgres://postgres:dev@localhost:5432/cyberledger" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: cd api && npm ci && npx tsc --noEmit && npx jest
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: cd web && npm ci && npm test && npm run build
