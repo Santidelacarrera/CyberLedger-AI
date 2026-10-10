@@ -10,3 +10,6 @@ export interface ActionRecord {
 }
 export interface Summary { pending: number; pendingSavings: number; realizedSavings: number; byStatus: Record<string, number> }
 export interface Session { baseUrl: string; apiKey: string }
+export interface AuditEntry { seq: number; at: string; actor: string; event: string; subject?: string; hash: string }
+export interface PolicyBody { dualControlActions: string[]; blockedActions: string[]; secopsRiskThreshold: number }
+export interface Policy { version: number; createdAt: string; createdBy: string; body: PolicyBody }

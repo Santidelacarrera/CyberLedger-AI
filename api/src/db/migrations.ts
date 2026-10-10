@@ -1,4 +1,4 @@
-export const MIGRATIONS = `
+const V1 = `
 CREATE TABLE IF NOT EXISTS actions (
   id UUID PRIMARY KEY,
   dedupe_key TEXT NOT NULL,
@@ -28,3 +28,10 @@ CREATE TRIGGER audit_immutable BEFORE UPDATE OR DELETE ON audit_log FOR EACH ROW
 DROP TRIGGER IF EXISTS policies_immutable ON policies;
 CREATE TRIGGER policies_immutable BEFORE UPDATE OR DELETE ON policies FOR EACH ROW EXECUTE FUNCTION forbid_mutation();
 `;
+
+/** Append-only list: never edit a released migration, add a new one. */
+export const MIGRATION_LIST: { id: number; sql: string }[] = [
+  { id: 1, sql: V1 },
+  { id: 2, sql: `ALTER TABLE actions ADD COLUMN IF NOT EXISTS executed_at TIMESTAMPTZ;
+                 CREATE INDEX IF NOT EXISTS actions_status_idx ON actions(status);` },
+];

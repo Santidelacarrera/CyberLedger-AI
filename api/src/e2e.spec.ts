@@ -27,7 +27,7 @@ describe('e2e: ingest -> approve -> execute', () => {
   beforeAll(async () => {
     if (process.env.DATABASE_URL) {
       const p = new Pool({ connectionString: process.env.DATABASE_URL });
-      await p.query('DROP TABLE IF EXISTS actions, audit_log, policies CASCADE').catch(() => undefined); await p.end();
+      await p.query('DROP TABLE IF EXISTS actions, audit_log, policies, schema_migrations CASCADE').catch(() => undefined); await p.end();
     }
     const { AppModule } = await import('./app.module');
     const { EngineClient } = await import('./engine/engine.client');

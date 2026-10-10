@@ -21,7 +21,7 @@ export interface Executor {
  */
 @Injectable()
 export class TerraformExecutor implements Executor {
-  private tf = (args: string[]) => run('terraform', args, { cwd: cfg().terraformDir, timeout: 15 * 60_000 });
+  private tf = (args: string[]) => run('terraform', args, { cwd: cfg().terraformDir, timeout: 15 * 60_000, env: process.env });
   private target = (a: ActionRecord) => (a.proposal.terraform_target ? [`-target=${a.proposal.terraform_target}`] : []);
 
   async plan(a: ActionRecord) {
@@ -33,7 +33,7 @@ export class TerraformExecutor implements Executor {
   }
   async rollback(a: ActionRecord) {
     const cmd = process.env.ROLLBACK_COMMAND;
-    if (cmd) await run(cmd, [a.proposal.terraform_target ?? ''], { cwd: cfg().terraformDir });
+    if (cmd) await run(cmd, [a.proposal.terraform_target ?? ''], { cwd: cfg().terraformDir, env: process.env });
     else throw new Error('no ROLLBACK_COMMAND configured');
   }
 }

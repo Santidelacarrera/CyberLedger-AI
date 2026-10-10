@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
 import { DEMO_INGEST } from './demo';
+import { AuditView, PolicyView } from './Admin';
 import { Detail } from './Detail';
 import { Matrix } from './Matrix';
 import { money } from './matrix';
@@ -23,7 +24,7 @@ function Login({ onLogin }: { onLogin: (s: Session) => void }) {
         <h1>CyberLedger AI</h1>
         <p className="muted">Riesgo neto integrado: seguridad + coste cloud</p>
         <label>API URL<input value={baseUrl} onChange={(e) => setBase(e.target.value)} /></label>
-        <label>API key<input type="password" value={apiKey} onChange={(e) => setKey(e.target.value)} autoFocus /></label>
+        <label>API key o token SSO (JWT)<input type="password" value={apiKey} onChange={(e) => setKey(e.target.value)} autoFocus /></label>
         <button className="primary" disabled={!apiKey}>Entrar</button>
       </form>
     </main>
@@ -37,6 +38,7 @@ function Dashboard({ s, onLogout }: { s: Session; onLogout: () => void }) {
   const [filter, setFilter] = useState<'PENDING_APPROVAL' | 'all'>('PENDING_APPROVAL');
   const [err, setErr] = useState<string>();
   const [busy, setBusy] = useState(false);
+  const [tab, setTab] = useState<'inbox' | 'policy' | 'audit'>('inbox');
 
   const refresh = useCallback(async () => {
     try { const [a, m] = await Promise.all([api.actions(s), api.summary(s)]); setActions(a); setSum(m); setErr(undefined); }
@@ -52,11 +54,16 @@ function Dashboard({ s, onLogout }: { s: Session; onLogout: () => void }) {
     <div className="app">
       <header className="top">
         <h1>CyberLedger AI</h1>
+        <nav className="tabs">{(['inbox', 'policy', 'audit'] as const).map((t) => (
+          <button key={t} className={tab === t ? 'on' : ''} onClick={() => setTab(t)}>{{ inbox: 'Decisiones', policy: 'Política', audit: 'Auditoría' }[t]}</button>))}</nav>
         <div className="grow" />
         <button onClick={ingest} disabled={busy}>{busy ? 'Analizando…' : 'Cargar datos demo'}</button>
         <button onClick={onLogout}>Salir</button>
       </header>
       {err && <p className="error banner">{err}</p>}
+      {tab === 'policy' && <PolicyView s={s} />}
+      {tab === 'audit' && <AuditView s={s} />}
+      {tab === 'inbox' && <>
       <section className="stats">
         <Stat label="Pendientes de decisión" value={String(sum?.pending ?? '–')} />
         <Stat label="Ahorro potencial / mes" value={sum ? money(sum.pendingSavings) : '–'} tone="good" />
@@ -86,7 +93,7 @@ function Dashboard({ s, onLogout }: { s: Session; onLogout: () => void }) {
             </li>))}</ul>
         </section>
         {current && <Detail key={current.id + current.status + current.approvals.length} a={current} s={s} onChange={refresh} />}
-      </div>
+      </div></>}
     </div>
   );
 }

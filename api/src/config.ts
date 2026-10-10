@@ -18,5 +18,9 @@ export const cfg = () => ({
   healthcheckUrlTemplate: process.env.HEALTHCHECK_URL_TEMPLATE, // e.g. http://{resource}.internal/health
   s3: { endpoint: process.env.S3_ENDPOINT, bucket: process.env.S3_BUCKET ?? 'evidence',
         accessKey: process.env.S3_ACCESS_KEY ?? 'minioadmin', secretKey: process.env.S3_SECRET_KEY ?? 'minioadmin' },
+  oidc: { issuer: process.env.OIDC_ISSUER, jwksUri: process.env.OIDC_JWKS_URI, audience: process.env.OIDC_AUDIENCE,
+          roleClaim: process.env.OIDC_ROLE_CLAIM ?? 'roles' },
+  webhookUrl: process.env.WEBHOOK_URL, // Slack-compatible incoming webhook ({"text": ...})
+  collectCron: process.env.COLLECT_CRON, // e.g. "0 */6 * * *"; enables scheduled AWS collection
   evidenceDir: process.env.EVIDENCE_DIR ?? './.evidence',
 });

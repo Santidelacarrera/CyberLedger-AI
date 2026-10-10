@@ -1,10 +1,12 @@
 import json
 
-from fastapi import FastAPI
+from botocore.exceptions import BotoCoreError, ClientError
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from .correlate import analyze
 from .ingest.ai_telemetry import detect_token_drift, scan_text
+from .ingest.aws import collect_ec2, collect_iam_keys
 from .ingest.cost import apply_costs, parse_cost_explorer, parse_inventory_csv
 from .ingest.sarif import parse_sarif
 from .ingest.trivy import parse_trivy
@@ -64,3 +66,19 @@ def ingest(req: IngestRequest) -> Portfolio:
             if p.requires_approval:
                 p.llm_summary = summarize(p)
     return portfolio
+
+
+class CollectAwsRequest(BaseModel):
+    days: int = Field(default=14, ge=1, le=90)
+    include_iam: bool = True
+    remediation_cost: float = Field(default=0, ge=0)
+
+
+@app.post("/collect/aws", response_model=Portfolio)
+def collect_aws(req: CollectAwsRequest) -> Portfolio:
+    """Pulls live inventory/cost/metrics with the service's own AWS credentials (read-only)."""
+    try:
+        resources = collect_ec2(days=req.days) + (collect_iam_keys() if req.include_iam else [])
+    except (BotoCoreError, ClientError) as e:
+        raise HTTPException(502, f"AWS collection failed: {type(e).__name__}: {e}")
+    return run_pipeline(resources, [], req.remediation_cost)

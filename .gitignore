@@ -5,3 +5,4 @@ __pycache__/
 .env
 .evidence/
 web/dist/
+dump.rdb

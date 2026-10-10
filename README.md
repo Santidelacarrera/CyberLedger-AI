@@ -14,7 +14,8 @@ Bandeja SecOps/FinOps (human-in-the-loop) → Worker BullMQ (ejecución idempote
 | `engine/` | FastAPI: ingesta (SARIF, Trivy, Cost Explorer, CSV, fugas de claves de IA, drift de tokens LLM), correlación riesgo×coste, ahorro, diff Terraform, narrativa LLM opcional |
 | `api/` | NestJS: acciones, aprobación multi-rol (control dual), políticas y auditoría inmutables (PostgreSQL), cola BullMQ, ejecutor Terraform, evidencias en MinIO/S3 |
 | `web/` | React + TS: matriz riesgo/coste, bandeja de decisiones, diff dry-run |
-| `docs/DECISIONS.md` | Decisiones de diseño y limitaciones |
+| `docs/` | `DECISIONS.md` (diseño y limitaciones), `OPERATIONS.md` (variables, métricas, runbooks) |
+| `SECURITY.md` | Modelo de amenazas y recomendaciones de despliegue |
 
 ## Arranque rápido
 ```
@@ -26,7 +27,7 @@ Desarrollo sin Docker: `cd engine && pip install -r requirements.txt && pytest &
 Tests: `pytest` (engine), `npx jest` (api; usa Redis y, con `DATABASE_URL`, PostgreSQL), `npm test` (web).
 
 ## API principal
-`POST /ingest` · `GET /actions` · `POST /actions/:id/{dry-run,approve,reject}` · `GET /summary` ·
+`POST /ingest` · `POST /collect/aws` (lectura en vivo) · `GET /metrics` · `GET /actions` · `POST /actions/:id/{dry-run,approve,reject}` · `GET /summary` ·
 `GET|POST /policy` (admin publica) · `GET /audit`, `/audit/verify` (admin). Cabecera `x-api-key`.
 Ejemplo de payload: `examples/demo-ingest.json`.
 

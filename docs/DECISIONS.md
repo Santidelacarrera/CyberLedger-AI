@@ -11,7 +11,8 @@
 9. **Auth fail-closed:** sin `API_KEYS` configuradas nadie puede llamar al API.
 
 ## Limitaciones conocidas
-- Las claves API estáticas son para MVP; sustituir por OIDC/SSO en producción.
-- No hay conectores en vivo a AWS/GCP: se ingieren exportaciones (Cost Explorer JSON, CSV de inventario, SARIF, Trivy).
+- Conector en vivo solo para AWS (EC2, CloudWatch, Cost Explorer, claves IAM), probado con clientes simulados, no contra una cuenta real. GCP/Azure: solo importación de archivos.
+- OIDC probado con claves locales, no contra un IdP real. No hay multi-tenant.
 - El rollback requiere `ROLLBACK_COMMAND` en modo Terraform.
-- La utilización de recursos proviene del inventario, no de métricas en vivo.
+- Fuera de AWS la utilización viene del inventario subido.
+- El ejecutor Terraform se probó con un binario simulado, no con `terraform` real; las imágenes Docker no se han construido en este entorno.

@@ -4,6 +4,7 @@ import { Queue } from 'bullmq';
 import { randomUUID } from 'crypto';
 import { AuditService } from '../audit/audit.service';
 import { EXECUTOR, Executor } from '../executor/executor';
+import { Notifier } from '../notify/notifier';
 import { PolicyService } from '../policy/policy.service';
 import { transition } from './action-state';
 import { isSatisfied } from './approval';
@@ -17,6 +18,7 @@ export class ActionsService {
     private readonly repo: ActionsRepository,
     private readonly audit: AuditService,
     private readonly policy: PolicyService,
+    private readonly notifier: Notifier,
     @Inject(EXECUTOR) private readonly executor: Executor,
     @InjectQueue('remediation') private readonly queue: Queue,
   ) {}
@@ -32,6 +34,8 @@ export class ActionsService {
     };
     if (!(await this.repo.insert(rec))) return null;
     await this.audit.record(actor, 'action.created', rec.id, { action: proposal.action, resource: proposal.resource_id, requiredRoles: roles });
+    const p = proposal;
+    await this.notifier.send(`🔔 Pending approval: ${p.action} on ${p.resource_id} (saves $${p.monthly_savings}/mo; needs ${roles.join('+')})`);
     return rec;
   }
 
@@ -81,6 +85,8 @@ export class ActionsService {
     rec.error = error ?? null;
     await this.repo.save(rec);
     await this.audit.record('system', `action.${to.toLowerCase()}`, id, error ? { error } : {});
+    if (['DONE', 'FAILED', 'ROLLED_BACK'].includes(to))
+      await this.notifier.send(`${to === 'DONE' ? '✅' : '⚠️'} ${rec.proposal.action} on ${rec.proposal.resource_id}: ${to}${error ? ` (${error})` : ''}`);
   }
 
   async summary() {

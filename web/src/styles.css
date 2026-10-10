@@ -30,3 +30,7 @@ button:focus-visible, .dot:focus-visible { outline:2px solid var(--acc); outline
 .approvals { list-style:none; padding:0; margin:0; } .approvals li { color:var(--mut); } .approvals li.ok { color:var(--good); }
 .detail footer { display:flex; gap:8px; margin-top:16px; } .error { color:var(--bad); } .banner { background:#2a1517; padding:8px 12px; border-radius:8px; }
 .login { min-height:100vh; display:grid; place-items:center; } .login form { width:min(380px,92vw); display:grid; gap:12px; } .login label { display:grid; gap:4px; color:var(--mut); }
+.tabs { display:flex; gap:4px; margin-left:16px; } .tabs .on { border-color:var(--acc); color:var(--acc); }
+.table { width:100%; border-collapse:collapse; font-size:13px; } .table th { text-align:left; color:var(--mut); font-weight:500; }
+.table th, .table td { padding:6px 8px; border-bottom:1px solid var(--line); }
+.row { display:grid; gap:4px; margin:12px 0; } .policy footer { display:flex; gap:12px; align-items:center; }
