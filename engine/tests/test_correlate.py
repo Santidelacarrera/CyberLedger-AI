@@ -45,3 +45,8 @@ def test_api():
     c = TestClient(app)
     assert c.get("/health").json() == {"status": "ok"}
     assert c.post("/analyze", json=req().model_dump(mode="json")).json()["action"] == "patch_and_rightsize"
+
+
+def test_stale_identity_has_nonzero_risk():
+    p = analyze(AnalyzeRequest(resource=Resource(id="k", kind="identity", monthly_cost=0, utilization=0, idle_days=180)))
+    assert p.security_risk == 0.5

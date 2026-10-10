@@ -8,12 +8,13 @@ class Action(str, Enum):
     REPLACE_CHEAPER = "replace_cheaper"
     DESTROY = "destroy"
     REVOKE_IDENTITY = "revoke_identity"
+    THROTTLE_LLM = "throttle_llm"
     NO_ACTION = "no_action"
 
 
 class Resource(BaseModel):
     id: str
-    kind: str = "compute"  # compute | identity | secret
+    kind: str = "compute"  # compute | identity | secret | llm_usage
     monthly_cost: float = Field(ge=0)
     utilization: float = Field(ge=0, le=1, description="avg CPU/mem utilization 0-1")
     instance_type: str = "m5.xlarge"
@@ -21,6 +22,7 @@ class Resource(BaseModel):
     cheaper_monthly_cost: float | None = Field(default=None, ge=0)
     production: bool = True
     idle_days: int = 0
+    baseline_monthly_cost: float | None = Field(default=None, ge=0, description="expected cost for llm_usage")
 
 
 class Finding(BaseModel):
@@ -48,3 +50,12 @@ class Proposal(BaseModel):
     requires_approval: bool
     rationale: str
     terraform_diff: str
+    terraform_target: str | None = None
+    llm_summary: str | None = None
+
+
+class Portfolio(BaseModel):
+    proposals: list[Proposal]
+    total_monthly_savings: float
+    critical_count: int
+    approvals_required: int

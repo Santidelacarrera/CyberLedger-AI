@@ -8,26 +8,30 @@ y pausa la ejecución hasta la aprobación humana.
 Telemetría (Cost APIs, Trivy/SARIF) → Core NestJS (estado/políticas) → Motor IA FastAPI (riesgo × coste) →
 Bandeja SecOps/FinOps (human-in-the-loop) → Worker BullMQ (ejecución idempotente con backoff y healthchecks).
 
-## Estado del repositorio (MVP scaffold)
-| Carpeta | Contenido | Estado |
-|---|---|---|
-| `engine/` | FastAPI: correlación riesgo/coste, ahorro, diff Terraform | implementado + tests |
-| `api/` | NestJS: acciones, máquina de estados, aprobación, cola BullMQ | esqueleto + tests de estado |
-| `docker-compose.yml` | Postgres, Redis, MinIO | listo |
-| `web/` | Dashboard React | pendiente |
+## Componentes
+| Carpeta | Contenido |
+|---|---|
+| `engine/` | FastAPI: ingesta (SARIF, Trivy, Cost Explorer, CSV, fugas de claves de IA, drift de tokens LLM), correlación riesgo×coste, ahorro, diff Terraform, narrativa LLM opcional |
+| `api/` | NestJS: acciones, aprobación multi-rol (control dual), políticas y auditoría inmutables (PostgreSQL), cola BullMQ, ejecutor Terraform, evidencias en MinIO/S3 |
+| `web/` | React + TS: matriz riesgo/coste, bandeja de decisiones, diff dry-run |
+| `docs/DECISIONS.md` | Decisiones de diseño y limitaciones |
 
-Pendiente: ingesta (Cost Explorer, SARIF/Trivy), persistencia en PostgreSQL, apply real de Terraform, LLM (Ollama/Claude) para contextualizar riesgo.
-
-## Desarrollo
+## Arranque rápido
 ```
-docker compose up -d
-cd engine && pip install -r requirements.txt && pytest && uvicorn app.main:app --reload
-cd api && npm install && npm test && npm start
+docker compose up --build          # web en :5173, API :3000, engine :8000
+# login con la API key dev-secops / dev-finops / dev-admin y pulsar "Cargar datos demo"
 ```
+Desarrollo sin Docker: `cd engine && pip install -r requirements.txt && pytest && uvicorn app.main:app`;
+`cd api && npm i && API_KEYS=k:me:admin npm start`; `cd web && npm i && npm run dev`.
+Tests: `pytest` (engine), `npx jest` (api; usa Redis y, con `DATABASE_URL`, PostgreSQL), `npm test` (web).
 
-## Lógica de decisión (engine)
-- `riesgo_seguridad = max(CVSS/10 · (0.5 + 0.5·exposición))`; `desperdicio = 1 − utilización`; `riesgo_neto = 0.7·seg + 0.3·desperdicio`.
-- Crítico + sobredimensionado → parche + redimensionado en una sola acción; crítico + uso alto → solo parche;
-  ocioso no-prod de bajo riesgo → destruir; identidades inactivas ≥90d → revocar.
+## API principal
+`POST /ingest` · `GET /actions` · `POST /actions/:id/{dry-run,approve,reject}` · `GET /summary` ·
+`GET|POST /policy` (admin publica) · `GET /audit`, `/audit/verify` (admin). Cabecera `x-api-key`.
+Ejemplo de payload: `examples/demo-ingest.json`.
+
+## Lógica de decisión
+- `riesgo_seguridad = max(CVSS/10 · (0.5 + 0.5·exposición))` (identidades inactivas suman hasta 0.5 por antigüedad); `desperdicio = 1 − utilización`; `riesgo_neto = 0.7·seg + 0.3·desperdicio`.
+- Crítico + sobredimensionado → parche + redimensionado en una sola acción; crítico + uso alto → solo parche; ocioso no-prod → destruir; identidades inactivas ≥90d o claves filtradas → revocar; deriva de gasto LLM → limitar y rotar clave.
 - Ahorro = coste actual − coste destino; payback = coste único / ahorro mensual.
 - Toda acción distinta de `no_action` requiere aprobación humana.

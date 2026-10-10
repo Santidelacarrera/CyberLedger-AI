@@ -8,9 +8,13 @@ CRITICAL_RISK = 0.7
 
 def security_risk(req: AnalyzeRequest) -> float:
     """Max over findings of (cvss/10) * (0.5 + 0.5*exposure), in [0, 1]."""
+    base = 0.0
+    r = req.resource
+    if r.kind in ("identity", "secret"):  # stale credentials are a risk even without a scanner finding
+        base = min(r.idle_days / 180, 1.0) * 0.5
     if not req.findings:
-        return 0.0
-    return max((f.cvss / 10) * (0.5 + 0.5 * f.exposure) for f in req.findings)
+        return base
+    return max(base, *((f.cvss / 10) * (0.5 + 0.5 * f.exposure) for f in req.findings))
 
 
 def financial_waste(req: AnalyzeRequest) -> float:
@@ -30,6 +34,10 @@ def _decide(req: AnalyzeRequest, sec: float) -> tuple[Action, str]:
         if r.idle_days >= 90 or sec >= CRITICAL_RISK:
             return Action.REVOKE_IDENTITY, f"{r.kind} inactive {r.idle_days}d / high risk"
         return Action.NO_ACTION, "identity in use and low risk"
+    if r.kind == "llm_usage":
+        if sec >= 0.4:
+            return Action.THROTTLE_LLM, "LLM token drift / key abuse: rotate key and apply spend cap"
+        return Action.NO_ACTION, "LLM usage within baseline"
     cheaper = r.cheaper_monthly_cost is not None and r.cheaper_monthly_cost < r.monthly_cost
     if r.utilization <= IDLE_UTILIZATION and sec < 0.3 and not r.production:
         return Action.DESTROY, "idle, low-risk, non-production resource (ghost)"
@@ -48,6 +56,8 @@ def _savings(req: AnalyzeRequest, action: Action) -> float:
     r = req.resource
     if action == Action.DESTROY:
         return r.monthly_cost
+    if action == Action.THROTTLE_LLM:
+        return max(r.monthly_cost - (r.baseline_monthly_cost or 0.0), 0.0)
     if action in (Action.PATCH_AND_RIGHTSIZE, Action.REPLACE_CHEAPER):
         return max(r.monthly_cost - (r.cheaper_monthly_cost or r.monthly_cost), 0.0)
     return 0.0
@@ -62,9 +72,22 @@ def _diff(req: AnalyzeRequest, action: Action) -> str:
         return h + f'- resource "aws_instance" "{r.id}" {{ ... }}\n'
     if action == Action.REVOKE_IDENTITY:
         return h + f'- resource "aws_iam_access_key" "{r.id}" {{ ... }}\n'
+    if action == Action.THROTTLE_LLM:
+        return h + f'  resource "llm_budget" "{r.id}" {{\n-   monthly_cap_usd = null\n+   monthly_cap_usd = {r.baseline_monthly_cost or 0}\n+   rotate_key      = true\n  }}\n'
     if action == Action.PATCH_IN_PLACE:
         return h + f'  resource "aws_instance" "{r.id}" {{\n-   ami = "<vulnerable>"\n+   ami = "<patched>"\n  }}\n'
     return h + "  (no changes)\n"
+
+
+def _target(req: AnalyzeRequest, action: Action) -> str | None:
+    r = req.resource
+    if action == Action.NO_ACTION:
+        return None
+    if action == Action.REVOKE_IDENTITY:
+        return f"aws_iam_access_key.{r.id}"
+    if action == Action.THROTTLE_LLM:
+        return f"llm_budget.{r.id}"
+    return f"aws_instance.{r.id}"
 
 
 def analyze(req: AnalyzeRequest) -> Proposal:
@@ -79,5 +102,5 @@ def analyze(req: AnalyzeRequest) -> Proposal:
         financial_waste=waste, net_risk=net_risk(sec, waste),
         monthly_savings=savings, one_off_cost=cost, payback_months=payback,
         requires_approval=action != Action.NO_ACTION,  # human-in-the-loop always
-        rationale=why, terraform_diff=_diff(req, action),
+        rationale=why, terraform_diff=_diff(req, action), terraform_target=_target(req, action),
     )
