@@ -1,0 +1,5 @@
+line-length = 200
+
+[lint]
+select = ["E", "F", "I", "B", "S"]
+ignore = ["S101"]  # asserts are the point of tests

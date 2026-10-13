@@ -16,12 +16,17 @@
 | `BODY_LIMIT`, `CORS_ORIGIN`, `PORT` | Ajustes del servidor |
 
 ## Motor
-`LLM_PROVIDER=none|ollama|anthropic`, `LLM_MODEL`, `OLLAMA_URL`, `ANTHROPIC_API_KEY`; credenciales AWS estándar de boto3 y `AWS_REGION`.
+`LLM_PROVIDER=none|ollama|anthropic` (por defecto `none`, coste $0; `ollama` = modelo local), `LLM_MODEL`, `OLLAMA_URL`, `ANTHROPIC_API_KEY`. El resumen del registro de eventos solo usa `ollama` salvo que se defina `EVENTLOG_ALLOW_PAID_LLM=1`; credenciales AWS estándar de boto3 y `AWS_REGION`.
 
 ## Observabilidad
 - Logs JSON por línea (stdout).
 - `GET /metrics` (admin) en formato Prometheus: acciones por estado, ahorro pendiente y ejecutado.
 - `GET /audit/verify` debe devolver `{"ok":true}`; alertar si no.
+
+## Registro de eventos
+- Exportar y verificar: `curl -H 'x-api-key: <admin>' $API/audit/export > audit.ndjson && node api/scripts/verify-audit-export.js audit.ndjson`.
+- Prueba de humo de extremo a extremo (datos sintéticos): `./scripts/smoke-eventlog.sh`.
+- Resumen programado: llamar a `GET /audit/summary?from=<ISO>` desde cualquier planificador y archivar la respuesta.
 
 ## Runbooks
 - **Acción en `FAILED`:** ver `error` en `GET /actions/:id`; BullMQ reintenta 5 veces con backoff; tras agotarse, corregir la causa y volver a aprobar creando una nueva propuesta con `/ingest`.

@@ -1,15 +1,14 @@
 import httpx
 from fastapi.testclient import TestClient
 
+from app.correlate import analyze
 from app.ingest.ai_telemetry import detect_token_drift, scan_text
 from app.ingest.cost import parse_cost_explorer, parse_inventory_csv
 from app.ingest.sarif import parse_sarif
 from app.ingest.trivy import parse_trivy
 from app.llm import summarize
 from app.main import app
-from app.models import Action
-from app.correlate import analyze
-from app.models import AnalyzeRequest, Resource
+from app.models import Action, AnalyzeRequest, Resource
 
 SARIF = {"runs": [{"tool": {"driver": {"rules": [{"id": "R1", "properties": {"security-severity": "9.1"}}]}},
                    "results": [{"ruleId": "R1", "message": {"text": "SQLi"}, "properties": {"resourceId": "api"}},
