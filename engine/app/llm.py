@@ -38,3 +38,39 @@ def summarize(p: Proposal, client: httpx.Client | None = None) -> str | None:
     except (httpx.HTTPError, KeyError, IndexError, ValueError):
         return None
     return None
+
+
+def narrate_events(facts: dict, rules_text: str, client: httpx.Client | None = None) -> str | None:
+    """Optional LLM rewrite of the event-log summary. Zero-cost by default: only a local Ollama is used unless
+    EVENTLOG_ALLOW_PAID_LLM=1. The text is accepted only if every number in it already appears in the computed
+    facts (guards against invented figures); otherwise the caller keeps the rule-based narrative."""
+    import json
+
+    from .eventlog import numbers_in
+
+    provider = os.getenv("LLM_PROVIDER", "none").lower()
+    if provider == "none" or (provider != "ollama" and os.getenv("EVENTLOG_ALLOW_PAID_LLM") != "1"):
+        return None
+    payload = json.dumps(facts, default=str, ensure_ascii=False)
+    prompt = ("Eres analista de seguridad. Redacta en español, en máximo 120 palabras, un resumen ejecutivo del registro "
+              "de eventos usando SOLO estos datos. No inventes cifras ni nombres. Destaca las anomalías.\n"
+              f"DATOS: {payload}\nBORRADOR: {rules_text}")
+    c = client or httpx.Client(timeout=30)
+    try:
+        if provider == "ollama":
+            r = c.post(os.getenv("OLLAMA_URL", "http://localhost:11434") + "/api/generate",
+                       json={"model": os.getenv("LLM_MODEL", "llama3.1"), "prompt": prompt, "stream": False})
+            r.raise_for_status()
+            text = r.json()["response"].strip()
+        else:
+            r = c.post("https://api.anthropic.com/v1/messages",
+                       headers={"x-api-key": os.environ["ANTHROPIC_API_KEY"], "anthropic-version": "2023-06-01"},
+                       json={"model": os.getenv("LLM_MODEL", "claude-haiku-5-5"), "max_tokens": 400,
+                             "messages": [{"role": "user", "content": prompt}]})
+            r.raise_for_status()
+            text = r.json()["content"][0]["text"].strip()
+    except (httpx.HTTPError, KeyError, IndexError, ValueError):
+        return None
+    if not text or not numbers_in(text) <= numbers_in(payload + " " + rules_text):
+        return None
+    return text

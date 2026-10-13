@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller, Get, Header, Param, Post, Req } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Header, Param, Post, Query, Req } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
-import { AuditService } from '../audit/audit.service';
+import { AuditQuery, AuditService } from '../audit/audit.service';
+import { EventLogService } from '../audit/eventlog.service';
 import { Public, Roles } from '../auth/auth';
 import { IngestService } from '../ingest/ingest.service';
 import { MetricsService } from '../metrics/metrics.service';
@@ -8,10 +9,12 @@ import { EvidenceService } from '../evidence/evidence.service';
 import { PolicyBody, PolicyService } from '../policy/policy.service';
 import { ActionsService } from './actions.service';
 
+const badQuery = (e: Error) => { throw new BadRequestException(e.message); };
+
 @Controller()
 export class ActionsController {
   constructor(
-    private readonly svc: ActionsService, private readonly audit: AuditService, private readonly policy: PolicyService,
+    private readonly svc: ActionsService, private readonly audit: AuditService, private readonly eventlog: EventLogService, private readonly policy: PolicyService,
     private readonly ingestSvc: IngestService, private readonly evidence: EvidenceService, private readonly metrics: MetricsService,
   ) {}
 
@@ -38,7 +41,17 @@ export class ActionsController {
     return this.ingestSvc.collectAws({ days: body?.days, include_iam: body?.include_iam }, r.user.user);
   }
 
-  @Roles('admin') @Get('audit') auditLog() { return this.audit.list(); }
+  @Roles('admin') @Get('audit') auditLog(@Query() q: AuditQuery) { return this.audit.query(q).catch(badQuery); }
+  @Header('content-type', 'application/x-ndjson') @Roles('admin') @Get('audit/export') auditExport() { return this.eventlog.exportNdjson(); }
+  @Throttle({ default: { limit: 20, ttl: 60_000 } }) @Roles('admin') @Get('audit/summary')
+  auditSummary(@Query() q: { from?: string; to?: string; explain?: string }) {
+    return this.eventlog.summarize({ from: q.from, to: q.to, explain: q.explain === 'true' });
+  }
+  @Throttle({ default: { limit: 20, ttl: 60_000 } }) @Roles('admin') @Get('audit/summary/synthetic')
+  auditSummarySynthetic(@Query() q: { scenario?: string; seed?: string; days?: string; explain?: string }) {
+    return this.eventlog.summarizeSynthetic({ scenario: q.scenario, seed: q.seed === undefined ? undefined : Number(q.seed),
+      days: q.days === undefined ? undefined : Number(q.days), explain: q.explain === 'true' });
+  }
   @Roles('admin') @Get('audit/verify') verify() { return this.audit.verify(); }
   @Get('policy') currentPolicy() { return this.policy.current(); }
   @Roles('admin') @Post('policy') async publish(@Body() body: PolicyBody, @Req() r: any) {
