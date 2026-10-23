@@ -7,7 +7,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install -r engine/requirements.txt && cd engine && pytest -q
+      - run: pip install -r engine/requirements.txt -r engine/requirements-dev.txt
+      - run: cd engine && ruff check .
+      - run: cd engine && bandit -q -r app -ll
+      - run: cd engine && pytest -q
   api:
     runs-on: ubuntu-latest
     services:
@@ -22,6 +25,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: cd api && npm ci && npx tsc --noEmit && npx jest
+      - run: cd api && npm audit --audit-level=high
   web:
     runs-on: ubuntu-latest
     steps:
@@ -29,3 +33,33 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: cd web && npm ci && npm test && npm run build
+      - run: cd web && npm audit --audit-level=high
+  smoke:
+    # Real engine + API + Postgres + Redis, synthetic data only: event log, AI summary and offline chain verification.
+    runs-on: ubuntu-latest
+    needs: [engine, api]
+    services:
+      redis: { image: "redis:7", ports: ["6379:6379"] }
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_PASSWORD: dev, POSTGRES_DB: cyberledger }
+        ports: ["5432:5432"]
+    env:
+      API_KEYS: "dev-secops:sara:secops,dev-finops:fede:finops,dev-admin:root:admin"
+      DATABASE_URL: "postgres://postgres:dev@localhost:5432/cyberledger"
+      EVIDENCE_DIR: /tmp/cl-evidence
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: pip install -r engine/requirements.txt
+      - run: cd api && npm ci && npx nest build
+      - run: |
+          (cd engine && nohup python -m uvicorn app.main:app --port 8000 > /tmp/engine.log 2>&1 &)
+          (cd api && nohup node dist/main.js > /tmp/api.log 2>&1 &)
+          for i in $(seq 1 30); do curl -sf localhost:3000/health && curl -sf localhost:8000/health && break; sleep 1; done
+      - run: ./scripts/smoke-eventlog.sh
+      - if: failure()
+        run: tail -n 50 /tmp/engine.log /tmp/api.log

@@ -34,3 +34,10 @@ button:focus-visible, .dot:focus-visible { outline:2px solid var(--acc); outline
 .table { width:100%; border-collapse:collapse; font-size:13px; } .table th { text-align:left; color:var(--mut); font-weight:500; }
 .table th, .table td { padding:6px 8px; border-bottom:1px solid var(--line); }
 .row { display:grid; gap:4px; margin:12px 0; } .policy footer { display:flex; gap:12px; align-items:center; }
+.filters { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 12px; } .filters input[type=date], .filters input:not([type]) { padding:5px 8px; }
+.pager { display:flex; gap:12px; align-items:center; justify-content:flex-end; margin-top:12px; }
+.sev-critical { color:var(--bad); font-weight:600; } .sev-warning { color:var(--warn); } .sev-notice { color:var(--acc); }
+.summary { margin-bottom:12px; } .row-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:8px; }
+.risk-low { color:var(--good); } .risk-medium { color:var(--warn); } .risk-high { color:var(--bad); }
+.anoms { list-style:none; padding:0; margin:0; display:grid; gap:4px; } .anoms li { padding:6px 10px; border-left:3px solid var(--line); background:#11151d; border-radius:4px; }
+.an-high { border-left-color:var(--bad) !important; } .an-medium { border-left-color:var(--warn) !important; } .an-low { border-left-color:var(--acc) !important; }

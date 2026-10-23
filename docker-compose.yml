@@ -14,7 +14,8 @@ services:
   engine:
     build: ./engine
     environment:
-      LLM_PROVIDER: "${LLM_PROVIDER:-none}"
+      LLM_PROVIDER: "${LLM_PROVIDER:-none}"   # none (default, $0) | ollama (local, $0)
+      OLLAMA_URL: "${OLLAMA_URL:-http://host.docker.internal:11434}"
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
       # live AWS collection (read-only role recommended); region is required
       AWS_REGION: "${AWS_REGION:-us-east-1}"
