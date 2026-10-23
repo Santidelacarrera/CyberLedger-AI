@@ -6,6 +6,7 @@ import { ActionsRepository } from './actions/actions.repo';
 import { ActionsService } from './actions/actions.service';
 import { RemediationProcessor } from './actions/remediation.processor';
 import { AuditService } from './audit/audit.service';
+import { EventLogService } from './audit/eventlog.service';
 import { AuthGuard } from './auth/auth';
 import { cfg } from './config';
 import { pgProvider } from './db/db';
@@ -27,7 +28,7 @@ import { PolicyService } from './policy/policy.service';
   ],
   controllers: [ActionsController],
   providers: [
-    pgProvider, executorProvider, ActionsRepository, ActionsService, RemediationProcessor, AuditService,
+    pgProvider, executorProvider, ActionsRepository, ActionsService, RemediationProcessor, AuditService, EventLogService,
     PolicyService, EngineClient, IngestService, CollectProcessor, MetricsService, Notifier, EvidenceService, HealthChecker, { provide: APP_GUARD, useClass: ThrottlerGuard }, { provide: APP_GUARD, useClass: AuthGuard },
   ],
 })

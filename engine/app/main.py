@@ -1,18 +1,19 @@
-import json
 
 from botocore.exceptions import BotoCoreError, ClientError
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from .correlate import analyze
+from .eventlog import AuditEvent, EventSummary, summarize_events
 from .ingest.ai_telemetry import detect_token_drift, scan_text
 from .ingest.aws import collect_ec2, collect_iam_keys
 from .ingest.cost import apply_costs, parse_cost_explorer, parse_inventory_csv
 from .ingest.sarif import parse_sarif
 from .ingest.trivy import parse_trivy
-from .llm import summarize
+from .llm import narrate_events, summarize
 from .models import AnalyzeRequest, Finding, Portfolio, Proposal, Resource
 from .pipeline import run_pipeline
+from .synthetic import generate
 
 app = FastAPI(title="CyberLedger Engine")
 
@@ -80,5 +81,21 @@ def collect_aws(req: CollectAwsRequest) -> Portfolio:
     try:
         resources = collect_ec2(days=req.days) + (collect_iam_keys() if req.include_iam else [])
     except (BotoCoreError, ClientError) as e:
-        raise HTTPException(502, f"AWS collection failed: {type(e).__name__}: {e}")
+        raise HTTPException(502, f"AWS collection failed: {type(e).__name__}: {e}") from e
     return run_pipeline(resources, [], req.remediation_cost)
+
+
+class SummarizeEventsRequest(BaseModel):
+    events: list[AuditEvent] = Field(max_length=5000)
+    explain: bool = Field(default=False, description="ask the (local) LLM to rewrite the narrative")
+
+
+@app.post("/summarize/events", response_model=EventSummary)
+def summarize_events_endpoint(req: SummarizeEventsRequest) -> EventSummary:
+    """Deterministic summary + anomaly detection of an audit-event list; optional guarded LLM narrative."""
+    return summarize_events(req.events, narrate_fn=narrate_events if req.explain else None)
+
+
+@app.get("/synthetic/events")
+def synthetic_events(seed: int = 7, days: int = 14, scenario: str = "normal") -> list[dict]:
+    return generate(seed, min(max(days, 1), 60), "incident" if scenario == "incident" else "normal")

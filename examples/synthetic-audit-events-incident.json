@@ -1,0 +1,1590 @@
+[
+ {
+  "seq": 1,
+  "at": "2026-09-01T08:10:00+00:00",
+  "actor": "sara",
+  "event": "collect.aws",
+  "subject": "ev00",
+  "data": {}
+ },
+ {
+  "seq": 2,
+  "at": "2026-09-01T08:10:05+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "0ed90475-9531-985d-5d9d-c9f81818e811",
+  "data": {
+   "action": "revoke_identity",
+   "resource": "orders-svc"
+  }
+ },
+ {
+  "seq": 3,
+  "at": "2026-09-01T08:40:05+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "0ed90475-9531-985d-5d9d-c9f81818e811",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 4,
+  "at": "2026-09-01T08:58:05+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "0ed90475-9531-985d-5d9d-c9f81818e811",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 5,
+  "at": "2026-09-01T09:00:05+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "0ed90475-9531-985d-5d9d-c9f81818e811",
+  "data": {}
+ },
+ {
+  "seq": 6,
+  "at": "2026-09-01T09:00:07+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "0ed90475-9531-985d-5d9d-c9f81818e811",
+  "data": {}
+ },
+ {
+  "seq": 7,
+  "at": "2026-09-01T09:00:35+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "0ed90475-9531-985d-5d9d-c9f81818e811",
+  "data": {
+   "error": "terraform apply exited with 1"
+  }
+ },
+ {
+  "seq": 8,
+  "at": "2026-09-01T09:01:05+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "0ed90475-9531-985d-5d9d-c9f81818e811",
+  "data": {
+   "error": "state lock held by another run"
+  }
+ },
+ {
+  "seq": 9,
+  "at": "2026-09-01T09:02:05+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "0ed90475-9531-985d-5d9d-c9f81818e811",
+  "data": {}
+ },
+ {
+  "seq": 10,
+  "at": "2026-09-02T08:20:00+00:00",
+  "actor": "scheduler",
+  "event": "ingest",
+  "subject": "ev01",
+  "data": {}
+ },
+ {
+  "seq": 11,
+  "at": "2026-09-02T08:20:02+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "8e81973e-0bec-d7b0-3898-d190f9ebdacc",
+  "data": {
+   "action": "patch_in_place",
+   "resource": "svc-old-deploy-key"
+  }
+ },
+ {
+  "seq": 12,
+  "at": "2026-09-02T09:04:02+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "8e81973e-0bec-d7b0-3898-d190f9ebdacc",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 13,
+  "at": "2026-09-02T09:26:02+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "8e81973e-0bec-d7b0-3898-d190f9ebdacc",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 14,
+  "at": "2026-09-02T09:30:02+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "8e81973e-0bec-d7b0-3898-d190f9ebdacc",
+  "data": {}
+ },
+ {
+  "seq": 15,
+  "at": "2026-09-02T09:30:04+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "8e81973e-0bec-d7b0-3898-d190f9ebdacc",
+  "data": {}
+ },
+ {
+  "seq": 16,
+  "at": "2026-09-02T09:30:32+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "8e81973e-0bec-d7b0-3898-d190f9ebdacc",
+  "data": {}
+ },
+ {
+  "seq": 17,
+  "at": "2026-09-03T08:20:00+00:00",
+  "actor": "sara",
+  "event": "collect.aws",
+  "subject": "ev02",
+  "data": {}
+ },
+ {
+  "seq": 18,
+  "at": "2026-09-03T08:20:05+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "7f150524-34b9-b5df-9e77-69b10f4205b4",
+  "data": {
+   "action": "revoke_identity",
+   "resource": "orders-svc"
+  }
+ },
+ {
+  "seq": 19,
+  "at": "2026-09-03T08:20:06+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "9be4bcfc-49b6-4a08-72e6-cc3ababced20",
+  "data": {
+   "action": "replace_cheaper",
+   "resource": "repo/.env.bak"
+  }
+ },
+ {
+  "seq": 20,
+  "at": "2026-09-03T08:20:09+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "d17f9aca-e01f-5057-ca02-135e92b1d3f2",
+  "data": {
+   "action": "revoke_identity",
+   "resource": "orders-svc"
+  }
+ },
+ {
+  "seq": 21,
+  "at": "2026-09-03T09:48:05+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "7f150524-34b9-b5df-9e77-69b10f4205b4",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 22,
+  "at": "2026-09-03T09:56:05+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "7f150524-34b9-b5df-9e77-69b10f4205b4",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 23,
+  "at": "2026-09-03T09:57:09+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "d17f9aca-e01f-5057-ca02-135e92b1d3f2",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 24,
+  "at": "2026-09-03T10:00:09+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "d17f9aca-e01f-5057-ca02-135e92b1d3f2",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 25,
+  "at": "2026-09-03T10:15:06+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "9be4bcfc-49b6-4a08-72e6-cc3ababced20",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 26,
+  "at": "2026-09-03T10:16:09+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "d17f9aca-e01f-5057-ca02-135e92b1d3f2",
+  "data": {}
+ },
+ {
+  "seq": 27,
+  "at": "2026-09-03T10:16:11+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "d17f9aca-e01f-5057-ca02-135e92b1d3f2",
+  "data": {}
+ },
+ {
+  "seq": 28,
+  "at": "2026-09-03T10:16:39+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "d17f9aca-e01f-5057-ca02-135e92b1d3f2",
+  "data": {}
+ },
+ {
+  "seq": 29,
+  "at": "2026-09-03T10:19:05+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "7f150524-34b9-b5df-9e77-69b10f4205b4",
+  "data": {}
+ },
+ {
+  "seq": 30,
+  "at": "2026-09-03T10:19:07+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "7f150524-34b9-b5df-9e77-69b10f4205b4",
+  "data": {}
+ },
+ {
+  "seq": 31,
+  "at": "2026-09-03T10:19:35+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "7f150524-34b9-b5df-9e77-69b10f4205b4",
+  "data": {
+   "error": "terraform apply exited with 1"
+  }
+ },
+ {
+  "seq": 32,
+  "at": "2026-09-03T10:20:05+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "7f150524-34b9-b5df-9e77-69b10f4205b4",
+  "data": {
+   "error": "healthcheck failed after apply"
+  }
+ },
+ {
+  "seq": 33,
+  "at": "2026-09-03T10:21:05+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "7f150524-34b9-b5df-9e77-69b10f4205b4",
+  "data": {}
+ },
+ {
+  "seq": 34,
+  "at": "2026-09-03T10:31:06+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "9be4bcfc-49b6-4a08-72e6-cc3ababced20",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 35,
+  "at": "2026-09-03T10:33:06+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "9be4bcfc-49b6-4a08-72e6-cc3ababced20",
+  "data": {}
+ },
+ {
+  "seq": 36,
+  "at": "2026-09-03T10:33:08+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "9be4bcfc-49b6-4a08-72e6-cc3ababced20",
+  "data": {}
+ },
+ {
+  "seq": 37,
+  "at": "2026-09-03T10:33:36+00:00",
+  "actor": "system",
+  "event": "action.rolled_back",
+  "subject": "9be4bcfc-49b6-4a08-72e6-cc3ababced20",
+  "data": {
+   "error": "healthcheck failed after apply"
+  }
+ },
+ {
+  "seq": 38,
+  "at": "2026-09-04T08:02:00+00:00",
+  "actor": "sara",
+  "event": "ingest",
+  "subject": "ev03",
+  "data": {}
+ },
+ {
+  "seq": 39,
+  "at": "2026-09-04T08:02:03+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "ab2cd31e-e315-1288-62c3-3a4fb774eb52",
+  "data": {
+   "action": "replace_cheaper",
+   "resource": "repo/.env.bak"
+  }
+ },
+ {
+  "seq": 40,
+  "at": "2026-09-04T08:02:05+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "14a0f9e7-7f1b-103c-df15-82b0eab477d2",
+  "data": {
+   "action": "destroy",
+   "resource": "svc-old-deploy-key"
+  }
+ },
+ {
+  "seq": 41,
+  "at": "2026-09-04T10:08:03+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "ab2cd31e-e315-1288-62c3-3a4fb774eb52",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 42,
+  "at": "2026-09-04T10:15:03+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "ab2cd31e-e315-1288-62c3-3a4fb774eb52",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 43,
+  "at": "2026-09-04T10:20:03+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "ab2cd31e-e315-1288-62c3-3a4fb774eb52",
+  "data": {}
+ },
+ {
+  "seq": 44,
+  "at": "2026-09-04T10:20:05+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "ab2cd31e-e315-1288-62c3-3a4fb774eb52",
+  "data": {}
+ },
+ {
+  "seq": 45,
+  "at": "2026-09-04T10:20:33+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "ab2cd31e-e315-1288-62c3-3a4fb774eb52",
+  "data": {}
+ },
+ {
+  "seq": 46,
+  "at": "2026-09-04T10:30:05+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "14a0f9e7-7f1b-103c-df15-82b0eab477d2",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 47,
+  "at": "2026-09-04T10:58:05+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "14a0f9e7-7f1b-103c-df15-82b0eab477d2",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 48,
+  "at": "2026-09-04T11:21:05+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "14a0f9e7-7f1b-103c-df15-82b0eab477d2",
+  "data": {}
+ },
+ {
+  "seq": 49,
+  "at": "2026-09-04T11:21:07+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "14a0f9e7-7f1b-103c-df15-82b0eab477d2",
+  "data": {}
+ },
+ {
+  "seq": 50,
+  "at": "2026-09-04T11:21:35+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "14a0f9e7-7f1b-103c-df15-82b0eab477d2",
+  "data": {}
+ },
+ {
+  "seq": 51,
+  "at": "2026-09-05T08:11:00+00:00",
+  "actor": "scheduler",
+  "event": "ingest",
+  "subject": "ev04",
+  "data": {}
+ },
+ {
+  "seq": 52,
+  "at": "2026-09-05T08:11:02+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "a8948c89-3b61-8676-26bb-7dbd2d1c9af0",
+  "data": {
+   "action": "patch_in_place",
+   "resource": "batch-staging"
+  }
+ },
+ {
+  "seq": 53,
+  "at": "2026-09-05T11:51:02+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "a8948c89-3b61-8676-26bb-7dbd2d1c9af0",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 54,
+  "at": "2026-09-05T11:56:02+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "a8948c89-3b61-8676-26bb-7dbd2d1c9af0",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 55,
+  "at": "2026-09-05T12:14:02+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "a8948c89-3b61-8676-26bb-7dbd2d1c9af0",
+  "data": {}
+ },
+ {
+  "seq": 56,
+  "at": "2026-09-05T12:14:04+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "a8948c89-3b61-8676-26bb-7dbd2d1c9af0",
+  "data": {}
+ },
+ {
+  "seq": 57,
+  "at": "2026-09-05T12:14:32+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "a8948c89-3b61-8676-26bb-7dbd2d1c9af0",
+  "data": {}
+ },
+ {
+  "seq": 58,
+  "at": "2026-09-06T08:18:00+00:00",
+  "actor": "fede",
+  "event": "ingest",
+  "subject": "ev05",
+  "data": {}
+ },
+ {
+  "seq": 59,
+  "at": "2026-09-06T08:18:05+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "f3aed0b6-c7ac-1491-def8-8334e647cb8f",
+  "data": {
+   "action": "destroy",
+   "resource": "payments-api"
+  }
+ },
+ {
+  "seq": 60,
+  "at": "2026-09-06T08:18:06+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "0d75985d-99c9-4309-570d-c1951c2442f9",
+  "data": {
+   "action": "patch_and_rightsize",
+   "resource": "repo/.env.bak"
+  }
+ },
+ {
+  "seq": 61,
+  "at": "2026-09-06T08:18:07+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "1f7296ab-7961-fd92-5d39-d0a89a2ef80f",
+  "data": {
+   "action": "replace_cheaper",
+   "resource": "ghost-vm-17"
+  }
+ },
+ {
+  "seq": 62,
+  "at": "2026-09-06T09:04:06+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "0d75985d-99c9-4309-570d-c1951c2442f9",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 63,
+  "at": "2026-09-06T09:07:06+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "0d75985d-99c9-4309-570d-c1951c2442f9",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 64,
+  "at": "2026-09-06T09:27:06+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "0d75985d-99c9-4309-570d-c1951c2442f9",
+  "data": {}
+ },
+ {
+  "seq": 65,
+  "at": "2026-09-06T09:27:08+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "0d75985d-99c9-4309-570d-c1951c2442f9",
+  "data": {}
+ },
+ {
+  "seq": 66,
+  "at": "2026-09-06T09:27:36+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "0d75985d-99c9-4309-570d-c1951c2442f9",
+  "data": {}
+ },
+ {
+  "seq": 67,
+  "at": "2026-09-06T10:08:05+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "f3aed0b6-c7ac-1491-def8-8334e647cb8f",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 68,
+  "at": "2026-09-06T10:10:05+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "f3aed0b6-c7ac-1491-def8-8334e647cb8f",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 69,
+  "at": "2026-09-06T10:13:05+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "f3aed0b6-c7ac-1491-def8-8334e647cb8f",
+  "data": {}
+ },
+ {
+  "seq": 70,
+  "at": "2026-09-06T10:13:07+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "f3aed0b6-c7ac-1491-def8-8334e647cb8f",
+  "data": {}
+ },
+ {
+  "seq": 71,
+  "at": "2026-09-06T10:13:35+00:00",
+  "actor": "system",
+  "event": "action.rolled_back",
+  "subject": "f3aed0b6-c7ac-1491-def8-8334e647cb8f",
+  "data": {
+   "error": "healthcheck failed after apply"
+  }
+ },
+ {
+  "seq": 72,
+  "at": "2026-09-06T10:25:07+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "1f7296ab-7961-fd92-5d39-d0a89a2ef80f",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 73,
+  "at": "2026-09-06T10:29:07+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "1f7296ab-7961-fd92-5d39-d0a89a2ef80f",
+  "data": {}
+ },
+ {
+  "seq": 74,
+  "at": "2026-09-06T10:29:09+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "1f7296ab-7961-fd92-5d39-d0a89a2ef80f",
+  "data": {}
+ },
+ {
+  "seq": 75,
+  "at": "2026-09-06T10:29:37+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "1f7296ab-7961-fd92-5d39-d0a89a2ef80f",
+  "data": {}
+ },
+ {
+  "seq": 76,
+  "at": "2026-09-07T08:08:00+00:00",
+  "actor": "fede",
+  "event": "ingest",
+  "subject": "ev06",
+  "data": {}
+ },
+ {
+  "seq": 77,
+  "at": "2026-09-07T08:08:02+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "5c9bcf35-873b-e078-f3b7-a50df373ca53",
+  "data": {
+   "action": "patch_and_rightsize",
+   "resource": "payments-api"
+  }
+ },
+ {
+  "seq": 78,
+  "at": "2026-09-07T08:22:02+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "5c9bcf35-873b-e078-f3b7-a50df373ca53",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 79,
+  "at": "2026-09-07T08:50:02+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "5c9bcf35-873b-e078-f3b7-a50df373ca53",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 80,
+  "at": "2026-09-07T09:13:02+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "5c9bcf35-873b-e078-f3b7-a50df373ca53",
+  "data": {}
+ },
+ {
+  "seq": 81,
+  "at": "2026-09-07T09:13:04+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "5c9bcf35-873b-e078-f3b7-a50df373ca53",
+  "data": {}
+ },
+ {
+  "seq": 82,
+  "at": "2026-09-07T09:13:32+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "5c9bcf35-873b-e078-f3b7-a50df373ca53",
+  "data": {
+   "error": "healthcheck failed after apply"
+  }
+ },
+ {
+  "seq": 83,
+  "at": "2026-09-07T09:14:02+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "5c9bcf35-873b-e078-f3b7-a50df373ca53",
+  "data": {
+   "error": "state lock held by another run"
+  }
+ },
+ {
+  "seq": 84,
+  "at": "2026-09-07T09:15:02+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "5c9bcf35-873b-e078-f3b7-a50df373ca53",
+  "data": {}
+ },
+ {
+  "seq": 85,
+  "at": "2026-09-08T08:11:00+00:00",
+  "actor": "sara",
+  "event": "ingest",
+  "subject": "ev07",
+  "data": {}
+ },
+ {
+  "seq": 86,
+  "at": "2026-09-08T08:11:02+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "c9d488b1-cfbf-3360-9cfc-865239194242",
+  "data": {
+   "action": "throttle_llm",
+   "resource": "key-chatbot-prod"
+  }
+ },
+ {
+  "seq": 87,
+  "at": "2026-09-08T08:11:04+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "42594052-78e4-b98d-4787-f93bca44eb86",
+  "data": {
+   "action": "patch_in_place",
+   "resource": "payments-api"
+  }
+ },
+ {
+  "seq": 88,
+  "at": "2026-09-08T08:11:09+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "9fc2d0a1-7b8f-2ab5-3451-d0135675f6ad",
+  "data": {
+   "action": "patch_and_rightsize",
+   "resource": "repo/.env.bak"
+  }
+ },
+ {
+  "seq": 89,
+  "at": "2026-09-08T09:47:04+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "42594052-78e4-b98d-4787-f93bca44eb86",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 90,
+  "at": "2026-09-08T09:59:04+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "42594052-78e4-b98d-4787-f93bca44eb86",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 91,
+  "at": "2026-09-08T10:07:04+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "42594052-78e4-b98d-4787-f93bca44eb86",
+  "data": {}
+ },
+ {
+  "seq": 92,
+  "at": "2026-09-08T10:07:06+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "42594052-78e4-b98d-4787-f93bca44eb86",
+  "data": {}
+ },
+ {
+  "seq": 93,
+  "at": "2026-09-08T10:07:34+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "42594052-78e4-b98d-4787-f93bca44eb86",
+  "data": {}
+ },
+ {
+  "seq": 94,
+  "at": "2026-09-08T10:21:09+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "9fc2d0a1-7b8f-2ab5-3451-d0135675f6ad",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 95,
+  "at": "2026-09-08T10:24:09+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "9fc2d0a1-7b8f-2ab5-3451-d0135675f6ad",
+  "data": {}
+ },
+ {
+  "seq": 96,
+  "at": "2026-09-08T10:24:11+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "9fc2d0a1-7b8f-2ab5-3451-d0135675f6ad",
+  "data": {}
+ },
+ {
+  "seq": 97,
+  "at": "2026-09-08T10:24:39+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "9fc2d0a1-7b8f-2ab5-3451-d0135675f6ad",
+  "data": {
+   "error": "terraform apply exited with 1"
+  }
+ },
+ {
+  "seq": 98,
+  "at": "2026-09-08T10:25:09+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "9fc2d0a1-7b8f-2ab5-3451-d0135675f6ad",
+  "data": {
+   "error": "AccessDenied on ec2:ModifyInstanceAttribute"
+  }
+ },
+ {
+  "seq": 99,
+  "at": "2026-09-08T10:26:09+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "9fc2d0a1-7b8f-2ab5-3451-d0135675f6ad",
+  "data": {}
+ },
+ {
+  "seq": 100,
+  "at": "2026-09-08T11:48:02+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "c9d488b1-cfbf-3360-9cfc-865239194242",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 101,
+  "at": "2026-09-08T12:04:02+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "c9d488b1-cfbf-3360-9cfc-865239194242",
+  "data": {}
+ },
+ {
+  "seq": 102,
+  "at": "2026-09-08T12:04:04+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "c9d488b1-cfbf-3360-9cfc-865239194242",
+  "data": {}
+ },
+ {
+  "seq": 103,
+  "at": "2026-09-08T12:04:32+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "c9d488b1-cfbf-3360-9cfc-865239194242",
+  "data": {}
+ },
+ {
+  "seq": 104,
+  "at": "2026-09-09T08:06:00+00:00",
+  "actor": "fede",
+  "event": "ingest",
+  "subject": "ev08",
+  "data": {}
+ },
+ {
+  "seq": 105,
+  "at": "2026-09-09T08:06:04+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "b8c9817a-f8be-8831-f237-e45acd02c5e1",
+  "data": {
+   "action": "patch_in_place",
+   "resource": "key-chatbot-prod"
+  }
+ },
+ {
+  "seq": 106,
+  "at": "2026-09-09T08:06:08+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "988af3fb-d396-30d6-9c90-11ef256badf9",
+  "data": {
+   "action": "throttle_llm",
+   "resource": "repo/.env.bak"
+  }
+ },
+ {
+  "seq": 107,
+  "at": "2026-09-09T09:43:08+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "988af3fb-d396-30d6-9c90-11ef256badf9",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 108,
+  "at": "2026-09-09T10:09:08+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "988af3fb-d396-30d6-9c90-11ef256badf9",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 109,
+  "at": "2026-09-09T10:26:08+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "988af3fb-d396-30d6-9c90-11ef256badf9",
+  "data": {}
+ },
+ {
+  "seq": 110,
+  "at": "2026-09-09T10:26:10+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "988af3fb-d396-30d6-9c90-11ef256badf9",
+  "data": {}
+ },
+ {
+  "seq": 111,
+  "at": "2026-09-09T10:26:38+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "988af3fb-d396-30d6-9c90-11ef256badf9",
+  "data": {}
+ },
+ {
+  "seq": 112,
+  "at": "2026-09-09T11:24:04+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "b8c9817a-f8be-8831-f237-e45acd02c5e1",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 113,
+  "at": "2026-09-09T11:29:04+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "b8c9817a-f8be-8831-f237-e45acd02c5e1",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 114,
+  "at": "2026-09-09T11:34:04+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "b8c9817a-f8be-8831-f237-e45acd02c5e1",
+  "data": {}
+ },
+ {
+  "seq": 115,
+  "at": "2026-09-09T11:34:06+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "b8c9817a-f8be-8831-f237-e45acd02c5e1",
+  "data": {}
+ },
+ {
+  "seq": 116,
+  "at": "2026-09-09T11:34:34+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "b8c9817a-f8be-8831-f237-e45acd02c5e1",
+  "data": {}
+ },
+ {
+  "seq": 117,
+  "at": "2026-09-10T08:04:00+00:00",
+  "actor": "fede",
+  "event": "ingest",
+  "subject": "ev09",
+  "data": {}
+ },
+ {
+  "seq": 118,
+  "at": "2026-09-10T08:04:02+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "804c25d6-4aff-dcd1-3678-bc8d40783f0a",
+  "data": {
+   "action": "patch_in_place",
+   "resource": "analytics-etl"
+  }
+ },
+ {
+  "seq": 119,
+  "at": "2026-09-10T09:35:02+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "804c25d6-4aff-dcd1-3678-bc8d40783f0a",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 120,
+  "at": "2026-09-10T09:37:02+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "804c25d6-4aff-dcd1-3678-bc8d40783f0a",
+  "data": {}
+ },
+ {
+  "seq": 121,
+  "at": "2026-09-10T09:37:04+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "804c25d6-4aff-dcd1-3678-bc8d40783f0a",
+  "data": {}
+ },
+ {
+  "seq": 122,
+  "at": "2026-09-10T09:37:32+00:00",
+  "actor": "system",
+  "event": "action.rolled_back",
+  "subject": "804c25d6-4aff-dcd1-3678-bc8d40783f0a",
+  "data": {
+   "error": "healthcheck failed after apply"
+  }
+ },
+ {
+  "seq": 123,
+  "at": "2026-09-11T08:11:00+00:00",
+  "actor": "fede",
+  "event": "ingest",
+  "subject": "ev10",
+  "data": {}
+ },
+ {
+  "seq": 124,
+  "at": "2026-09-11T08:11:05+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "86048719-26de-bfdb-8825-ae562179b37d",
+  "data": {
+   "action": "revoke_identity",
+   "resource": "svc-old-deploy-key"
+  }
+ },
+ {
+  "seq": 125,
+  "at": "2026-09-11T08:11:10+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "84b28054-aead-44b0-5373-90e50fcf31ca",
+  "data": {
+   "action": "revoke_identity",
+   "resource": "orders-svc"
+  }
+ },
+ {
+  "seq": 126,
+  "at": "2026-09-11T08:11:11+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "e998d0ee-e4dd-f9b9-c28e-e907072235c2",
+  "data": {
+   "action": "revoke_identity",
+   "resource": "repo/.env.bak"
+  }
+ },
+ {
+  "seq": 127,
+  "at": "2026-09-11T10:11:05+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "86048719-26de-bfdb-8825-ae562179b37d",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 128,
+  "at": "2026-09-11T10:16:05+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "86048719-26de-bfdb-8825-ae562179b37d",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 129,
+  "at": "2026-09-11T10:21:05+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "86048719-26de-bfdb-8825-ae562179b37d",
+  "data": {}
+ },
+ {
+  "seq": 130,
+  "at": "2026-09-11T10:21:07+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "86048719-26de-bfdb-8825-ae562179b37d",
+  "data": {}
+ },
+ {
+  "seq": 131,
+  "at": "2026-09-11T10:21:35+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "86048719-26de-bfdb-8825-ae562179b37d",
+  "data": {}
+ },
+ {
+  "seq": 132,
+  "at": "2026-09-11T10:55:11+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "e998d0ee-e4dd-f9b9-c28e-e907072235c2",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 133,
+  "at": "2026-09-11T11:10:11+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "e998d0ee-e4dd-f9b9-c28e-e907072235c2",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 134,
+  "at": "2026-09-11T11:27:11+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "e998d0ee-e4dd-f9b9-c28e-e907072235c2",
+  "data": {}
+ },
+ {
+  "seq": 135,
+  "at": "2026-09-11T11:27:13+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "e998d0ee-e4dd-f9b9-c28e-e907072235c2",
+  "data": {}
+ },
+ {
+  "seq": 136,
+  "at": "2026-09-11T11:27:41+00:00",
+  "actor": "system",
+  "event": "action.rolled_back",
+  "subject": "e998d0ee-e4dd-f9b9-c28e-e907072235c2",
+  "data": {
+   "error": "healthcheck failed after apply"
+  }
+ },
+ {
+  "seq": 137,
+  "at": "2026-09-11T11:39:10+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "84b28054-aead-44b0-5373-90e50fcf31ca",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 138,
+  "at": "2026-09-11T11:48:10+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "84b28054-aead-44b0-5373-90e50fcf31ca",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 139,
+  "at": "2026-09-11T12:13:10+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "84b28054-aead-44b0-5373-90e50fcf31ca",
+  "data": {}
+ },
+ {
+  "seq": 140,
+  "at": "2026-09-11T12:13:12+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "84b28054-aead-44b0-5373-90e50fcf31ca",
+  "data": {}
+ },
+ {
+  "seq": 141,
+  "at": "2026-09-11T12:13:40+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "84b28054-aead-44b0-5373-90e50fcf31ca",
+  "data": {}
+ },
+ {
+  "seq": 142,
+  "at": "2026-09-12T08:16:00+00:00",
+  "actor": "fede",
+  "event": "ingest",
+  "subject": "ev11",
+  "data": {}
+ },
+ {
+  "seq": 143,
+  "at": "2026-09-12T08:16:03+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "712ea6b3-6471-fde4-1f22-9dd06aa8b9e0",
+  "data": {
+   "action": "patch_and_rightsize",
+   "resource": "repo/.env.bak"
+  }
+ },
+ {
+  "seq": 144,
+  "at": "2026-09-12T09:25:03+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "712ea6b3-6471-fde4-1f22-9dd06aa8b9e0",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 145,
+  "at": "2026-09-12T09:51:03+00:00",
+  "actor": "fede",
+  "event": "action.approved",
+  "subject": "712ea6b3-6471-fde4-1f22-9dd06aa8b9e0",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 146,
+  "at": "2026-09-12T10:20:03+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "712ea6b3-6471-fde4-1f22-9dd06aa8b9e0",
+  "data": {}
+ },
+ {
+  "seq": 147,
+  "at": "2026-09-12T10:20:05+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "712ea6b3-6471-fde4-1f22-9dd06aa8b9e0",
+  "data": {}
+ },
+ {
+  "seq": 148,
+  "at": "2026-09-12T10:20:33+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "712ea6b3-6471-fde4-1f22-9dd06aa8b9e0",
+  "data": {
+   "error": "healthcheck failed after apply"
+  }
+ },
+ {
+  "seq": 149,
+  "at": "2026-09-12T10:21:03+00:00",
+  "actor": "system",
+  "event": "action.failed",
+  "subject": "712ea6b3-6471-fde4-1f22-9dd06aa8b9e0",
+  "data": {
+   "error": "state lock held by another run"
+  }
+ },
+ {
+  "seq": 150,
+  "at": "2026-09-12T10:22:03+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "712ea6b3-6471-fde4-1f22-9dd06aa8b9e0",
+  "data": {}
+ },
+ {
+  "seq": 151,
+  "at": "2026-09-13T08:08:00+00:00",
+  "actor": "sara",
+  "event": "ingest",
+  "subject": "ev12",
+  "data": {}
+ },
+ {
+  "seq": 152,
+  "at": "2026-09-13T08:08:02+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "fd68373b-29ac-f1a5-7cbd-1f5ae28af604",
+  "data": {
+   "action": "destroy",
+   "resource": "orders-svc"
+  }
+ },
+ {
+  "seq": 153,
+  "at": "2026-09-13T10:06:02+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "fd68373b-29ac-f1a5-7cbd-1f5ae28af604",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 154,
+  "at": "2026-09-13T10:13:02+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "fd68373b-29ac-f1a5-7cbd-1f5ae28af604",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 155,
+  "at": "2026-09-13T10:24:02+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "fd68373b-29ac-f1a5-7cbd-1f5ae28af604",
+  "data": {}
+ },
+ {
+  "seq": 156,
+  "at": "2026-09-13T10:24:04+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "fd68373b-29ac-f1a5-7cbd-1f5ae28af604",
+  "data": {}
+ },
+ {
+  "seq": 157,
+  "at": "2026-09-13T10:24:32+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "fd68373b-29ac-f1a5-7cbd-1f5ae28af604",
+  "data": {}
+ },
+ {
+  "seq": 158,
+  "at": "2026-09-14T08:11:00+00:00",
+  "actor": "sara",
+  "event": "collect.aws",
+  "subject": "ev13",
+  "data": {}
+ },
+ {
+  "seq": 159,
+  "at": "2026-09-14T08:11:05+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "84768b8c-54dd-0ba5-6264-67ba04a10547",
+  "data": {
+   "action": "throttle_llm",
+   "resource": "repo/.env.bak"
+  }
+ },
+ {
+  "seq": 160,
+  "at": "2026-09-14T08:11:07+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "e7e8f9f6-0a22-7385-459c-945c43fc0527",
+  "data": {
+   "action": "patch_in_place",
+   "resource": "orders-svc"
+  }
+ },
+ {
+  "seq": 161,
+  "at": "2026-09-14T08:35:05+00:00",
+  "actor": "sara",
+  "event": "action.rejected",
+  "subject": "84768b8c-54dd-0ba5-6264-67ba04a10547",
+  "data": {}
+ },
+ {
+  "seq": 162,
+  "at": "2026-09-14T08:52:07+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "e7e8f9f6-0a22-7385-459c-945c43fc0527",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 163,
+  "at": "2026-09-14T09:10:07+00:00",
+  "actor": "marta",
+  "event": "action.approved",
+  "subject": "e7e8f9f6-0a22-7385-459c-945c43fc0527",
+  "data": {
+   "role": "finops"
+  }
+ },
+ {
+  "seq": 164,
+  "at": "2026-09-14T09:33:07+00:00",
+  "actor": "system",
+  "event": "action.queued",
+  "subject": "e7e8f9f6-0a22-7385-459c-945c43fc0527",
+  "data": {}
+ },
+ {
+  "seq": 165,
+  "at": "2026-09-14T09:33:09+00:00",
+  "actor": "system",
+  "event": "action.executing",
+  "subject": "e7e8f9f6-0a22-7385-459c-945c43fc0527",
+  "data": {}
+ },
+ {
+  "seq": 166,
+  "at": "2026-09-14T09:33:37+00:00",
+  "actor": "system",
+  "event": "action.done",
+  "subject": "e7e8f9f6-0a22-7385-459c-945c43fc0527",
+  "data": {}
+ },
+ {
+  "seq": 167,
+  "at": "2026-09-14T23:03:00+00:00",
+  "actor": "sara",
+  "event": "action.created",
+  "subject": "b02e3d8d-ccb1-c51d-0eba-0ea84770a087",
+  "data": {
+   "action": "destroy",
+   "resource": "analytics-etl"
+  }
+ },
+ {
+  "seq": 168,
+  "at": "2026-09-14T23:03:00+00:00",
+  "actor": "sara",
+  "event": "action.blocked_by_policy",
+  "subject": "res-0",
+  "data": {
+   "action": "destroy"
+  }
+ },
+ {
+  "seq": 169,
+  "at": "2026-09-14T23:03:04+00:00",
+  "actor": "luis",
+  "event": "action.approved",
+  "subject": "b02e3d8d-ccb1-c51d-0eba-0ea84770a087",
+  "data": {
+   "role": "secops"
+  }
+ },
+ {
+  "seq": 170,
+  "at": "2026-09-14T23:03:09+00:00",
+  "actor": "root",
+  "event": "policy.published",
+  "subject": "9",
+  "data": {}
+ },
+ {
+  "seq": 171,
+  "at": "2026-09-14T23:04:00+00:00",
+  "actor": "sara",
+  "event": "action.blocked_by_policy",
+  "subject": "res-1",
+  "data": {
+   "action": "destroy"
+  }
+ },
+ {
+  "seq": 172,
+  "at": "2026-09-14T23:05:00+00:00",
+  "actor": "sara",
+  "event": "action.blocked_by_policy",
+  "subject": "res-2",
+  "data": {
+   "action": "destroy"
+  }
+ },
+ {
+  "seq": 173,
+  "at": "2026-09-14T23:08:00+00:00",
+  "actor": "fede",
+  "event": "action.created",
+  "subject": "1289bafa-e531-6960-6ce1-93c22eefa279",
+  "data": {
+   "action": "destroy"
+  }
+ }
+]

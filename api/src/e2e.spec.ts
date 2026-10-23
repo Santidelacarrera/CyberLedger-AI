@@ -32,7 +32,11 @@ describe('e2e: ingest -> approve -> execute', () => {
     const { AppModule } = await import('./app.module');
     const { EngineClient } = await import('./engine/engine.client');
     const mod = await Test.createTestingModule({ imports: [AppModule] })
-      .overrideProvider(EngineClient).useValue({ ingest: async () => PORTFOLIO }).compile();
+      .overrideProvider(EngineClient).useValue({
+        ingest: async () => PORTFOLIO,
+        summarizeEvents: async (events: any[], explain: boolean) => ({ total_events: events.length, explain, risk_level: 'low' }),
+        syntheticEvents: async (q: any) => Array.from({ length: 4 }, (_, i) => ({ seq: i + 1, ...q })),
+      }).compile();
     app = mod.createNestApplication(); await app.init();
   });
   afterAll(async () => {
@@ -81,5 +85,32 @@ describe('e2e: ingest -> approve -> execute', () => {
     expect(p.body.version).toBeGreaterThan(0);
     const r = await http().post('/ingest').set('x-api-key', 'ks').send({}).expect(201);
     expect(r.body.created).toHaveLength(0);
+  });
+
+  it('exposes the event log: filters, export, AI summary, synthetic demo (admin only)', async () => {
+    for (const path of ['/audit', '/audit/export', '/audit/summary', '/audit/summary/synthetic'])
+      await http().get(path).set('x-api-key', 'ks').expect(403);
+    const page = await http().get('/audit?event=action.created&limit=1').set('x-api-key', 'ka').expect(200);
+    expect(page.body.items).toHaveLength(1); expect(page.body.total).toBeGreaterThanOrEqual(1);
+    expect(page.body.items[0].event).toBe('action.created');
+    const crit = await http().get('/audit?severity=critical').set('x-api-key', 'ka').expect(200);
+    expect(crit.body.items.every((e: any) => e.event === 'action.rolled_back')).toBe(true);
+    await http().get('/audit?from=garbage').set('x-api-key', 'ka').expect(400);
+
+    const exp = await http().get('/audit/export').set('x-api-key', 'ka').expect(200);
+    expect(exp.headers['content-type']).toContain('application/x-ndjson');
+    const lines = exp.text.trim().split('\n').map((l) => JSON.parse(l));
+    expect(lines.length).toBeGreaterThan(5);
+    const { verify } = require('../scripts/verify-audit-export.js');
+    expect(verify(exp.text)).toMatchObject({ ok: true });
+
+    const sum = await http().get('/audit/summary?explain=true').set('x-api-key', 'ka').expect(200);
+    expect(sum.body).toMatchObject({ source: 'audit_log', truncated: false, summary: { explain: true } });
+    expect(sum.body.eventsAnalyzed).toBe(lines.length);
+    const before = lines.length;
+    const syn = await http().get('/audit/summary/synthetic?scenario=incident&seed=3&days=5').set('x-api-key', 'ka').expect(200);
+    expect(syn.body).toMatchObject({ source: 'synthetic', scenario: 'incident', seed: 3, days: 5, eventsAnalyzed: 4 });
+    const after = (await http().get('/audit/export').set('x-api-key', 'ka')).text.trim().split('\n').length;
+    expect(after).toBe(before); // synthetic data is never written to the real trail
   });
 });
